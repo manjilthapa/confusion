@@ -12,13 +12,21 @@ type MainState = {
 class MainComponent extends Component<{}, MainState> {
   state: MainState = {
     dishes: DISHES,
-    selectedDishId: 0,
+    selectedDishId: -1,
   };
+
+  componentDidMount() {
+    console.log("Main component is mounted!");
+  }
+  componentDidUpdate() {
+    console.log("Main component is updated!");
+  }
 
   onDishSelect = (dishId: number) => {
     this.setState({ selectedDishId: dishId });
   };
   render() {
+    console.log("Main component is rendered!");
     return (
       <div>
         <Navbar dark color="primary">

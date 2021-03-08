@@ -8,7 +8,14 @@ type AppProps = {
 };
 
 class MenuComponent extends Component<AppProps> {
+  componentDidMount() {
+    console.log("Menu component is mounted!");
+  }
+  componentDidUpdate() {
+    console.log("Menu component is updated!");
+  }
   render() {
+    console.log("Menu component is rendered!");
     const menu = this.props.dishes.map((dish) => {
       return (
         <div key={dish.id} className="col-12 col-md-5 m-1">
