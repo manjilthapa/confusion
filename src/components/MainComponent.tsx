@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, RouteComponentProps } from "react-router-dom";
 import { IDish } from "../interfaces/IDish";
 import { DISHES } from "../shared/dishes";
 import { COMMENTS } from "../shared/comments";
@@ -14,6 +14,10 @@ import ContactComponent from "./ContactComponent";
 import { IComment } from "../interfaces/IComment";
 import { ILeader } from "../interfaces/ILeader";
 import { IPromotion } from "../interfaces/IPromotion";
+
+type MainProps = {
+  dishId: string;
+};
 
 type MainState = {
   dishes: IDish[];
@@ -42,7 +46,21 @@ class MainComponent extends Component<{}, MainState> {
     this.setState({ selectedDishId: dishId });
   };
   render() {
-    console.log("Main component is rendered!");
+    const dishWithId = ({ match }: RouteComponentProps<MainProps>) => {
+      return (
+        <DishDetailComponent
+          dish={
+            this.state.dishes.filter(
+              (dish) => dish.id === Number(match.params.dishId)
+            )[0]
+          }
+          comments={this.state.comments.filter(
+            (comment) => comment.dishId === +match.params.dishId
+          )}
+        />
+      );
+    };
+
     return (
       <div>
         <HeaderComponent />
@@ -63,9 +81,11 @@ class MainComponent extends Component<{}, MainState> {
             )}
           />
           <Route
+            exact
             path="/menu"
             render={() => <MenuComponent dishes={this.state.dishes} />}
           />
+          <Route path="/menu/:dishId" component={dishWithId} />
           <Route path="/contact-us" component={ContactComponent} />
           <Redirect to="/home" />
         </Switch>
