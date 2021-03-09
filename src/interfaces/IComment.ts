@@ -4,4 +4,6 @@ export interface IComment {
   comment: string;
   author: string;
   date: string;
+  dishId: number;
+  designation?: string;
 }

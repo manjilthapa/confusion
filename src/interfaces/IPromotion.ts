@@ -1,10 +1,9 @@
-export interface IDish {
+export interface IPromotion {
   id: number;
   name: string;
   image: string;
-  category: string;
   label: string;
-  price: string;
+  price: number;
   featured: boolean;
   description: string;
   designation?: string;

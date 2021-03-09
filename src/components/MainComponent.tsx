@@ -2,19 +2,32 @@ import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { IDish } from "../interfaces/IDish";
 import { DISHES } from "../shared/dishes";
+import { COMMENTS } from "../shared/comments";
+import { PROMOTIONS } from "../shared/promotions";
+import { LEADERS } from "../shared/leaders";
 import MenuComponent from "./MenuComponent";
 import DishDetailComponent from "./DishDetailComponent";
 import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
 import HomeComponent from "./HomeComponent";
+import ContactComponent from "./ContactComponent";
+import { IComment } from "../interfaces/IComment";
+import { ILeader } from "../interfaces/ILeader";
+import { IPromotion } from "../interfaces/IPromotion";
 
 type MainState = {
   dishes: IDish[];
+  comments: IComment[];
+  leaders: ILeader[];
+  promotions: IPromotion[];
   selectedDishId: number;
 };
 class MainComponent extends Component<{}, MainState> {
   state: MainState = {
     dishes: DISHES,
+    comments: COMMENTS,
+    leaders: LEADERS,
+    promotions: PROMOTIONS,
     selectedDishId: -1,
   };
 
@@ -35,11 +48,25 @@ class MainComponent extends Component<{}, MainState> {
         <HeaderComponent />
 
         <Switch>
-          <Route path="/home" render={() => <HomeComponent />} />
+          <Route
+            path="/home"
+            render={() => (
+              <HomeComponent
+                dish={this.state.dishes.filter((dish) => dish.featured)[0]}
+                promotion={
+                  this.state.promotions.filter((promo) => promo.featured)[0]
+                }
+                leader={
+                  this.state.leaders.filter((leader) => leader.featured)[0]
+                }
+              />
+            )}
+          />
           <Route
             path="/menu"
             render={() => <MenuComponent dishes={this.state.dishes} />}
           />
+          <Route path="/contact-us" component={ContactComponent} />
           <Redirect to="/home" />
         </Switch>
         {/* <MenuComponent
